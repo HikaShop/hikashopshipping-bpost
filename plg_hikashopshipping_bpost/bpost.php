@@ -224,7 +224,7 @@ class plgHikashopshippingBpost extends hikashopShippingPlugin {
 		$cartClass->save($cartObj);
 
 		// Close the popup
-		$current_page = hikashop_currentURL
+		$current_page = hikashop_currentURL();
 		$js = '
 window.hikashop.ready(function(){
 	window.top.location.href = "'.$current_page.'";
