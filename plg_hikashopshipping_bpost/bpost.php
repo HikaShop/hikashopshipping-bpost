@@ -407,7 +407,7 @@ window.hikashop.ready(function(){
 window.hikashop.ready(function(){
 	SHM.open({
 		integrationType: "POPUP",
-		parameters: '.$parameters.'
+		parameters: '.$parameters.',
 		closeCallback: function(data) {
 			if(data === "confirm") {
 				window.top.location.href = "'.$current_page.'";
