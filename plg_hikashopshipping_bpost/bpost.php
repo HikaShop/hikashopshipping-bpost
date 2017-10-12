@@ -27,7 +27,9 @@ class plgHikashopshippingBpost extends hikashopShippingPlugin {
 		if(empty($order->cart_params->bpost))
 			return true;
 		$app = JFactory::getApplication();
-		$shipping_data = reset($app->getUserState(HIKASHOP_COMPONENT.'.shipping_data'));
+		$data = $app->getUserState(HIKASHOP_COMPONENT.'.shipping_data');
+		if(!empty($data))
+			$shipping_data = reset($data);
 		$currencyClass = hikashop_get('class.currency');
 		foreach($usable_rates as $k => $rate) {
 			if($rate->shipping_type != $this->name)
@@ -212,9 +214,7 @@ class plgHikashopshippingBpost extends hikashopShippingPlugin {
 			return;
 
 		$cartClass = hikashop_get('class.cart');
-		$cartObj = new stdClass();
-		$cartObj->cart_id = $cart->cart_id;
-		$cartObj->cart_params = $cart->cart_params;
+		$cartObj = $cartClass->get((int)$cart->cart_id);
 		if(!is_object($cartObj->cart_params))
 			$cartObj->cart_params = new stdClass();
 		$cartObj->cart_params->bpost = new stdClass();
@@ -472,7 +472,7 @@ window.hkbpostRefresh = function() {
 	 *
 	 */
 	public function onShippingConfiguration(&$element) {
-		$this->bpost = JRequest::getCmd('name','bpost');
+		$this->bpost = hikaInput::get()->getCmd('name','bpost');
 		$this->categoryType = hikashop_get('type.categorysub');
 		$this->categoryType->type = 'tax';
 		$this->categoryType->field = 'category_id';
